@@ -1,0 +1,21 @@
+#!/bin/bash
+
+zenity --question --title="Backup" --text="Do you want to start automatic backup?"
+BACKUP=$?
+if [ $BACKUP == "0" ]
+then
+	echo "Automatic backup starting"
+	
+	if [ -e /media/Backup/.isPBDrive ]
+	then
+		rsync -avrh --progress /home/tarun/E-Books /media/Backup
+		rsync -avrh --progress --delete /home/tarun/Music /media/Backup
+		rsync -avrh --progress /home/tarun/Softwares /media/Backup
+		rsync -avrh --progress --delete /home/tarun/Wallpaper /media/Backup
+	else
+		echo "Wrong drive"
+	fi
+	
+else
+	echo "User denied automatic backup"
+fi
